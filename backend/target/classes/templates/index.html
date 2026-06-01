@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+```
+<title>CloudDeploy - DevOps Automation Platform</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet">
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      rel="stylesheet">
+
+<style>
+
+    body{
+        background:#f4f7fc;
+    }
+
+    .hero{
+        background:linear-gradient(135deg,#0d6efd,#4f8cff);
+        color:white;
+        border-radius:20px;
+        padding:40px;
+        margin-bottom:30px;
+    }
+
+    .deploy-card{
+        border:none;
+        border-radius:20px;
+        transition:0.3s;
+    }
+
+    .deploy-card:hover{
+        transform:translateY(-5px);
+    }
+
+    .icon-box{
+        font-size:45px;
+        color:#0d6efd;
+        margin-bottom:15px;
+    }
+
+</style>
+```
+
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+```
+<!-- HEADER -->
+
+<div class="hero text-center shadow">
+
+    <h1>
+        <i class="fa-solid fa-cloud"></i>
+        CloudDeploy
+    </h1>
+
+    <h5 class="mt-3">
+        Generic DevOps Automation Platform
+    </h5>
+
+    <p class="mt-3 mb-0">
+
+        Upload Projects or GitHub Repositories and
+        automatically build Docker images using Jenkins.
+
+    </p>
+
+</div>
+
+<!-- DEPLOYMENT OPTIONS -->
+
+<div class="row">
+
+    <!-- ZIP DEPLOYMENT -->
+
+    <div class="col-md-6">
+
+        <div class="card shadow deploy-card p-4">
+
+            <div class="text-center">
+
+                <div class="icon-box">
+                    <i class="fa-solid fa-file-zipper"></i>
+                </div>
+
+                <h3>
+                    ZIP Deployment
+                </h3>
+
+            </div>
+
+            <form method="post"
+                  enctype="multipart/form-data"
+                  action="/upload">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Upload Project ZIP
+                    </label>
+
+                    <input
+                            type="file"
+                            class="form-control"
+                            name="file"
+                            accept=".zip"
+                            required>
+
+                </div>
+
+                <button
+                        class="btn btn-primary w-100">
+
+                    Upload & Deploy
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- GITHUB DEPLOYMENT -->
+
+    <div class="col-md-6">
+
+        <div class="card shadow deploy-card p-4">
+
+            <div class="text-center">
+
+                <div class="icon-box">
+                    <i class="fa-brands fa-github"></i>
+                </div>
+
+                <h3>
+                    GitHub Deployment
+                </h3>
+
+            </div>
+
+            <form action="/github/deploy"
+                  method="post">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Repository URL
+                    </label>
+
+                    <input
+                            type="text"
+                            class="form-control"
+                            name="repositoryUrl"
+                            placeholder="https://github.com/user/project.git"
+                            required>
+
+                </div>
+
+                <button
+                        type="submit"
+                        class="btn btn-success w-100">
+
+                    Clone & Deploy
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FEATURES -->
+
+<div class="card shadow mt-5 p-4">
+
+    <h3 class="mb-4">
+        Platform Features
+    </h3>
+
+    <div class="row">
+
+        <div class="col-md-4">
+            ✅ Technology Detection
+        </div>
+
+        <div class="col-md-4">
+            ✅ Dockerfile Generation
+        </div>
+
+        <div class="col-md-4">
+            ✅ Jenkins Integration
+        </div>
+
+        <div class="col-md-4 mt-3">
+            ✅ Docker Image Build
+        </div>
+
+        <div class="col-md-4 mt-3">
+            🚀 Docker Hub Push (Next)
+        </div>
+
+        <div class="col-md-4 mt-3">
+            🚀 Kubernetes Deployment (Next)
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+    <title>CloudDeploy - ZIP Deployment</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+          rel="stylesheet">
+
+</head>
+
+<body class="bg-light">
+
+<div class="container mt-5 mb-5">
+
+    <div class="card shadow-lg border-0">
+
+        <div class="card-header bg-primary text-white p-4">
+
+            <h2>
+                <i class="fa-solid fa-cloud"></i>
+                CloudDeploy
+            </h2>
+
+            <h5>
+                ZIP Deployment Status
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="alert alert-info">
+
+                <strong>Status :</strong>
+                <span th:text="${message}"></span>
+
+            </div>
+
+            <div th:if="${deploymentError}"
+                 class="alert alert-danger">
+
+                <strong>Deployment Failed</strong>
+
+                <hr>
+
+                <span th:text="${deploymentError}"></span>
+
+            </div>
+
+            <div class="card mb-4">
+
+                <div class="card-header">
+
+                    <strong>Automation Pipeline</strong>
+
+                </div>
+
+                <div class="card-body">
+
+                    <div th:if="${zipUploaded}"
+                         class="alert alert-success">
+                        ✅ ZIP Uploaded
+                    </div>
+
+                    <div th:unless="${zipUploaded}"
+                         class="alert alert-danger">
+                        ❌ ZIP Upload Failed
+                    </div>
+
+                    <div th:if="${projectExtracted}"
+                         class="alert alert-success">
+                        ✅ Project Extracted
+                    </div>
+
+                    <div th:unless="${projectExtracted}"
+                         class="alert alert-danger">
+                        ❌ Project Extraction Failed
+                    </div>
+
+                    <div th:if="${technologyDetected}"
+                         class="alert alert-success">
+                        ✅ Technology Detected
+                    </div>
+
+                    <div th:unless="${technologyDetected}"
+                         class="alert alert-danger">
+                        ❌ Technology Detection Failed
+                    </div>
+
+                    <div th:if="${dockerfileGenerated}"
+                         class="alert alert-success">
+                        ✅ Dockerfile Generated
+                    </div>
+
+                    <div th:unless="${dockerfileGenerated}"
+                         class="alert alert-danger">
+                        ❌ Dockerfile Generation Failed
+                    </div>
+
+                    <div th:if="${jenkinsTriggered}"
+                         class="alert alert-success">
+                        ✅ Jenkins Pipeline Triggered
+                    </div>
+
+                    <div th:unless="${jenkinsTriggered}"
+                         class="alert alert-danger">
+                        ❌ Jenkins Trigger Failed
+                    </div>
+
+                    <div th:if="${buildStatus=='SUCCESS'}"
+                         class="alert alert-success">
+                        ✅ Docker Build Successful
+                    </div>
+
+                    <div th:if="${buildStatus=='FAILED'}"
+                         class="alert alert-danger">
+                        ❌ Docker Build Failed
+                    </div>
+
+                    <div th:if="${buildStatus=='RUNNING'}"
+                         class="alert alert-warning">
+                        🟡 Docker Build Running
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card mb-4">
+
+                <div class="card-header">
+
+                    <strong>Deployment Details</strong>
+
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+                        <strong>Detected Technology :</strong>
+                        <span th:text="${technology}"></span>
+                    </p>
+
+                    <p>
+                        <strong>Project Root :</strong>
+                        <span th:text="${projectRoot}"></span>
+                    </p>
+
+                    <p>
+                        <strong>Generated Dockerfile :</strong>
+                        <span th:text="${dockerfilePath}"></span>
+                    </p>
+
+                    <p>
+                        <strong>Jenkins Pipeline :</strong>
+                        clouddeploy-pipeline
+                    </p>
+
+                </div>
+
+            </div>
+
+            <a href="/"
+               class="btn btn-primary">
+
+                Upload Another Project
+
+            </a>
+
+            <a href="http://localhost:8081/job/clouddeploy-pipeline/"
+               target="_blank"
+               class="btn btn-warning">
+
+                Open Jenkins
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

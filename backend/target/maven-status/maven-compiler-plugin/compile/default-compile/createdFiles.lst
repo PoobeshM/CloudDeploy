@@ -1,0 +1,16 @@
+com\clouddeploy\service\JenkinsTriggerService.class
+com\clouddeploy\controller\HomeController.class
+com\clouddeploy\service\ProjectRootDetectionService.class
+com\clouddeploy\CloudDeployApplication.class
+com\clouddeploy\service\DockerfileGenerationService.class
+com\clouddeploy\service\GitCloneService.class
+com\clouddeploy\service\DockerBuildService.class
+com\clouddeploy\util\ZipUtil.class
+com\clouddeploy\dto\GitHubDeployRequest.class
+com\clouddeploy\model\ProjectType.class
+com\clouddeploy\service\DockerfileGenerationService$1.class
+com\clouddeploy\service\TechStackDetectionService.class
+com\clouddeploy\controller\UploadController.class
+com\clouddeploy\dto\UploadResponse.class
+com\clouddeploy\service\FileStorageService.class
+com\clouddeploy\service\JenkinsStatusService.class
