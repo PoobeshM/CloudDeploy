@@ -6,10 +6,14 @@ E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\dto\UploadResponse.
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\model\ProjectType.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\DockerBuildService.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\DockerfileGenerationService.java
+E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\DockerStatusService.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\FileStorageService.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\GitCloneService.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\JenkinsStatusService.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\JenkinsTriggerService.java
+E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\KubernetesDeploymentService.java
+E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\KubernetesManifestService.java
+E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\PortAllocationService.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\ProjectRootDetectionService.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\service\TechStackDetectionService.java
 E:\clouddeploy-starter\backend\src\main\java\com\clouddeploy\util\ZipUtil.java

@@ -1,14 +1,17 @@
 package com.clouddeploy.controller;
 
+import com.clouddeploy.service.DockerStatusService;
 import com.clouddeploy.service.DockerfileGenerationService;
 import com.clouddeploy.service.FileStorageService;
 import com.clouddeploy.service.GitCloneService;
 import com.clouddeploy.service.JenkinsStatusService;
 import com.clouddeploy.service.JenkinsTriggerService;
+import com.clouddeploy.service.KubernetesManifestService;
 import com.clouddeploy.service.ProjectRootDetectionService;
 import com.clouddeploy.service.TechStackDetectionService;
+import com.clouddeploy.service.PortAllocationService;
+import com.clouddeploy.service.KubernetesDeploymentService;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,29 +19,56 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class UploadController {
+private final FileStorageService fileStorageService;
 
-    @Autowired
-    private FileStorageService fileStorageService;
+private final ProjectRootDetectionService projectRootDetectionService;
 
-    @Autowired
-    private ProjectRootDetectionService projectRootDetectionService;
+private final TechStackDetectionService detectionService;
 
-    @Autowired
-    private TechStackDetectionService detectionService;
+private final DockerfileGenerationService dockerfileGenerationService;
 
-    @Autowired
-    private DockerfileGenerationService dockerfileGenerationService;
+private final JenkinsTriggerService jenkinsTriggerService;
 
-    @Autowired
-    private JenkinsTriggerService jenkinsTriggerService;
+private final JenkinsStatusService jenkinsStatusService;
 
-    @Autowired
-    private JenkinsStatusService jenkinsStatusService;
+private final GitCloneService gitCloneService;
 
-    @Autowired
-    private GitCloneService gitCloneService;
+private final KubernetesManifestService kubernetesManifestService;
 
-    
+private final DockerStatusService dockerStatusService;
+
+private final PortAllocationService portAllocationService;
+
+private final KubernetesDeploymentService kubernetesDeploymentService;
+
+public UploadController(
+        FileStorageService fileStorageService,
+        ProjectRootDetectionService projectRootDetectionService,
+        TechStackDetectionService detectionService,
+        DockerfileGenerationService dockerfileGenerationService,
+        JenkinsTriggerService jenkinsTriggerService,
+        JenkinsStatusService jenkinsStatusService,
+        GitCloneService gitCloneService,
+        KubernetesManifestService kubernetesManifestService,
+        DockerStatusService dockerStatusService,
+        PortAllocationService portAllocationService,
+        KubernetesDeploymentService kubernetesDeploymentService
+
+) {
+
+    this.fileStorageService = fileStorageService;
+    this.projectRootDetectionService = projectRootDetectionService;
+    this.detectionService = detectionService;
+    this.dockerfileGenerationService = dockerfileGenerationService;
+    this.jenkinsTriggerService = jenkinsTriggerService;
+    this.jenkinsStatusService = jenkinsStatusService;
+    this.gitCloneService = gitCloneService;
+    this.kubernetesManifestService = kubernetesManifestService;
+    this.dockerStatusService = dockerStatusService;
+    this.portAllocationService = portAllocationService;
+    this.kubernetesDeploymentService = kubernetesDeploymentService;
+}
+
     @PostMapping("/upload")
     public String uploadProject(
             @RequestParam("file") MultipartFile file,
@@ -73,6 +103,32 @@ public class UploadController {
             var detectedType =
                     detectionService
                             .detectTechnology(projectRoot);
+                int hostPort =
+                 portAllocationService
+                        .getNextAvailablePort();
+                int containerPort;
+                switch (detectedType) {
+                        case SPRING_BOOT:
+                        case GRADLE_JAVA:
+                                containerPort = 8080;
+                                break;
+
+                        case NODE_JS:
+                        case REACT:
+                                containerPort = 3000;
+                                break;
+
+                        case FLASK:
+                                containerPort = 5000;
+                                break;
+
+                        case DJANGO:
+                                containerPort = 8000;
+                                break;
+
+                        default:
+                                containerPort = 8080;
+                        }
                             model.addAttribute(
                                 "technologyDetected",
                                 true
@@ -89,10 +145,34 @@ public class UploadController {
                                 "dockerfileGenerated",
                                 true    
                                 );
+                                String kubernetesAppName = "app-" + projectName;
+
+                        kubernetesManifestService.generateManifests(
+                                kubernetesAppName,
+                                "clouddeploy-test",
+                                containerPort
+                                );
+
+                                kubernetesDeploymentService.deploy(
+                                kubernetesAppName
+                                );
+
+                        
 
             // STEP 5 - Trigger Jenkins
             System.out.println("PROJECT ROOT = " + projectRoot);
-            jenkinsTriggerService.triggerBuild( projectRoot, projectName );
+            jenkinsTriggerService.triggerBuild(
+                                projectRoot,
+                                projectName,
+                                detectedType.toString(),
+                                hostPort,
+                                containerPort
+                                );
+                        System.out.println("================================");
+System.out.println("HOST PORT = " + hostPort);
+System.out.println("CONTAINER PORT = " + containerPort);
+System.out.println("TECHNOLOGY = " + detectedType);
+System.out.println("================================");
             model.addAttribute(
                 "jenkinsTriggered",
                 true
@@ -102,26 +182,62 @@ public class UploadController {
                                 "buildStatus",
                                 buildStatus
                         );
-            // UI Response
-            model.addAttribute(
-                    "message",
-                    "Deployment submitted to Jenkins successfully"
-            );
+         boolean running =
+                        dockerStatusService
+                        .isContainerRunning(
+                        "clouddeploy-test-container"
+                        );
 
-            model.addAttribute(
-                    "projectRoot",
-                    projectRoot
-            );
+                        model.addAttribute(
+                        "dockerStatus",
+                        running ? "Running" : "Stopped"
+                        );
 
-            model.addAttribute(
-                    "technology",
-                    detectedType
-            );
+                        model.addAttribute(
+                        "containerName",
+                        "clouddeploy-test-container"
+                        );
 
-            model.addAttribute(
-                    "dockerfilePath",
-                    dockerfilePath
-            );
+                        String applicationUrl =
+                                "http://localhost:" + hostPort;
+
+                                model.addAttribute(
+                                "applicationUrl",
+                                applicationUrl
+                                );
+                                model.addAttribute(
+                                "hostPort",
+                                hostPort
+                                );
+
+                                model.addAttribute(
+                                "containerPort",
+                                containerPort
+                                );
+
+
+
+                        // UI Response
+                        model.addAttribute(
+                        "message",
+                        "Deployment submitted to Jenkins successfully"
+                        );
+
+                        model.addAttribute(
+                        "projectRoot",
+                        projectRoot
+                        );
+
+                        model.addAttribute(
+                        "technology",
+                        detectedType
+                        );
+
+                        model.addAttribute(
+                        "dockerfilePath",
+                        dockerfilePath
+                        );
+
 
         } catch (Exception e) {
 
@@ -184,6 +300,37 @@ public String deployFromGitHub(
                         .detectTechnology(
                                 projectRoot
                         );
+                int hostPort =
+                        portAllocationService
+                        .getNextAvailablePort();
+
+                        int containerPort;
+
+                        switch (detectedType) {
+
+                        case SPRING_BOOT:
+                        case GRADLE_JAVA:
+                        containerPort = 8080;
+                        break;
+
+                        case NODE_JS:
+                        case REACT:
+                        containerPort = 3000;
+                        break;
+
+                        case FLASK:
+                        containerPort = 5000;
+                        break;
+
+                        case DJANGO:
+                        containerPort = 8000;
+                        break;
+
+                        default:
+                        containerPort = 8080;
+
+}
+
                         model.addAttribute(
                         "technologyDetected",
                         true
@@ -200,13 +347,48 @@ public String deployFromGitHub(
                         "dockerfileGenerated",
                         true
                         );
+                        kubernetesManifestService.generateManifests(
+                        projectName,
+                        "clouddeploy-test",
+                        containerPort
+                        );
+
+                        kubernetesDeploymentService.deploy(
+                        projectName
+                        );
+
 
         // Trigger Jenkins
-        jenkinsTriggerService
-                .triggerBuild(
+                jenkinsTriggerService.triggerBuild(
                         projectRoot,
-                        projectName
-                );
+                        projectName,
+                        detectedType.toString(),
+                        hostPort,
+                        containerPort
+                        );
+                        String applicationUrl =
+                        "http://localhost:" + hostPort;
+
+                        model.addAttribute(
+                        "applicationUrl",
+                        applicationUrl
+                        );
+
+                        model.addAttribute(
+                        "hostPort",
+                        hostPort
+                        );
+
+                        model.addAttribute(
+                        "containerPort",
+                        containerPort
+                        );
+
+                        System.out.println("================================");
+System.out.println("HOST PORT = " + hostPort);
+System.out.println("CONTAINER PORT = " + containerPort);
+System.out.println("TECHNOLOGY = " + detectedType);
+System.out.println("================================");
                 model.addAttribute(
                 "jenkinsTriggered",
                 true

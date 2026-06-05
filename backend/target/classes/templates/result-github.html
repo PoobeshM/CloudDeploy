@@ -155,6 +155,37 @@
                         <strong>Jenkins Pipeline :</strong>
                         clouddeploy-pipeline
                     </p>
+                        <p>
+    <strong>Docker Status :</strong>
+    <span th:text="${dockerStatus}"></span>
+</p>
+
+<p>
+    <strong>Container Name :</strong>
+    <span th:text="${containerName}"></span>
+</p>
+
+<p>
+    <strong>Application URL :</strong>
+
+```
+<a th:href="${applicationUrl}"
+   th:text="${applicationUrl}"
+   target="_blank">
+</a>
+```
+
+</p>
+
+<a th:href="${applicationUrl}"
+target="_blank"
+class="btn btn-success">
+
+```
+Open Application
+```
+
+</a>
 
                 </div>
 
