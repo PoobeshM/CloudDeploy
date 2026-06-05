@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: app-nodejs-responsive-webapp-service
+
+spec:
+  selector:
+    app: app-nodejs-responsive-webapp
+
+  ports:
+  - port: 80
+    targetPort: 3000
+
+  type: NodePort
