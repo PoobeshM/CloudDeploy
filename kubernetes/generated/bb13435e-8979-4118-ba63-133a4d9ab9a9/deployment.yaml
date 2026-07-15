@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: app-nodejs-responsive-webapp
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: app-nodejs-responsive-webapp
+
+  template:
+    metadata:
+      labels:
+        app: app-nodejs-responsive-webapp
+
+    spec:
+      containers:
+        - name: app-nodejs-responsive-webapp
+          image: clouddeploy-test
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000

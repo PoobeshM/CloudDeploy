@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: bb13435e-8979-4118-ba63-133a4d9ab9a9-service
+
+spec:
+  selector:
+    app: bb13435e-8979-4118-ba63-133a4d9ab9a9
+
+  ports:
+  - port: 80
+    targetPort: 8080
+
+  type: NodePort
