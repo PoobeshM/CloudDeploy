@@ -38,7 +38,6 @@
 - [🤖 Jenkins Section](#-jenkins-section)
 - [🐳 Docker Section](#-docker-section)
 - [☸️ Kubernetes Section](#️-kubernetes-section)
-- [🖼️ Screenshots](#️-screenshots)
 - [🚧 Future Enhancements](#-future-enhancements)
 - [🎓 Learning Outcomes](#-learning-outcomes)
 - [👨‍💻 Author](#-author)
@@ -155,57 +154,57 @@ CloudDeploy automatically detects and supports the following project types:
 
 ```
                     ┌────────────────────┐
-                    │        👤 User      │
+                    │        👤 User     │
                     └──────────┬─────────┘
                                │
                                ▼
               ┌────────────────────────────────┐
-              │   📦 Upload ZIP / GitHub URL     │
+              │   📦 Upload ZIP / GitHub URL   │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   🌱 Spring Boot Backend         │
+              │   🌱 Spring Boot Backend       │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   🔍 Technology Detection        │
+              │   🔍 Technology Detection      │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   🐳 Dockerfile Generator        │
+              │   🐳 Dockerfile Generator      │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   ☸️ Kubernetes Manifest Gen      │
+              │   ☸️ Kubernetes Manifest Ge    │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   🤖 Jenkins Pipeline            │
+              │   🤖 Jenkins Pipeline          │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   🏗️ Docker Build                │
+              │   🏗️ Docker Build              │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   📦 Docker Container            │
+              │   📦 Docker Container          │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   ☸️ Kubernetes Deployment        │
+              │   ☸️ Kubernetes Deployment     │
               └──────────────┬─────────────────┘
                               │
                               ▼
               ┌────────────────────────────────┐
-              │   🔗 Application URL             │
+              │   🔗 Application URL           │
               └────────────────────────────────┘
 ```
 
@@ -530,7 +529,5 @@ Building CloudDeploy demonstrates practical, hands-on understanding of:
 <div align="center">
 
 ### ⭐ If you found this project useful, consider giving it a star!
-
-**Made with ❤️ and ☕ by Poobesh M**
 
 </div>
