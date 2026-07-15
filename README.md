@@ -307,7 +307,7 @@ mvn clean install
 mvn spring-boot:run
 ```
 
-The application will start at 👉 `http://localhost:8087`
+The application will start at 👉 `http://localhost:8083`
 The port depends on your Spring Boot configuration.
 
 <details>
@@ -337,6 +337,7 @@ docker run -d -p 8081:8080 -p 50000:50000 \
 
 # Access Jenkins at
 http://localhost:8081
+Your Local Jenkins Working Port
 ```
 
 Unlock Jenkins using the initial admin password:
